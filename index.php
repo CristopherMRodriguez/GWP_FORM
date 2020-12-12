@@ -12,7 +12,7 @@
   <body onload="getLoc()">
     <h1>GWP QR API</h1>
     <iframe name="iframe" id="google_map" src=""></iframe></br>
-    <form action="gwp.php" method="POST">
+    <form action="index.php" method="POST">
       <h2>Unique Product Number: 123</h2>
       <label>Leave a Gift Message! ❤️</label><br>
       <textarea class="text-area" name="text-area" rows="4" cols="50"></textarea></br>

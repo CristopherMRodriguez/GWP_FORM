@@ -44,11 +44,11 @@
     <form action="index.php" method="POST">
       <h2>Unique Product Number: 123</h2>
       <label>Leave a Gift Message! ❤️</label><br>
-            <textarea class="text-area" name="text-area" rows="4" cols="50"><?php echo htmlspecialchars(textArea); ?></textarea></br>
+            <textarea class="text-area" name="text-area" rows="4" cols="50"><?php echo htmlspecialchars($textArea); ?></textarea></br>
       <div class="red"><?php echo $errorText; ?></div>
       </br>
       <label>Please Enter Your Email</label></br>
-            <input name="email" type="text" class="email-input" value="<?php echo htmlspecialchars(email); ?>"></br>
+            <input name="email" type="text" class="email-input" value="<?php echo htmlspecialchars($email); ?>"></br>
       <div class="red"><?php echo $errorEmail; ?></div>
       <br>
       <input name="submit" type="submit" class="submit" value="submit"></br>

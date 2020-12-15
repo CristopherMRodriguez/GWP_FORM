@@ -1,5 +1,48 @@
 <!DOCTYPE html>
+<?php
+    include ("config/db_connect.php");
 
+    $sql = "SELECT location FROM General ORDER BY Time_Stamp";
+    
+    $result = mysqli_query($conn, $sql);
+    
+    $emailQuery = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    mysqli_free_result($result);
+    mysqli_close($conn);
+
+    print_r($emailQuery);
+
+    if (!$conn){
+      echo "Connection error: " . mysqli_connect_error();
+    }
+
+    $errorText = "";
+    $errorEmail = "";
+    $textArea = "";
+    $email = "";
+    
+  if(isset($_POST["submit"])){
+    $textArea = $_POST["text-area"];  
+    $email = $_POST["email"];
+    
+    if (empty($textArea)){
+      $errorText = "Please enter a gift message.";
+    } 
+
+    if(empty($email)){
+      $errorEmail = "Please enter email.";
+    } else {
+      if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $errorEmail = "Email Must Be a Valid Email Address.";
+      } 
+    }
+
+    if ($errorEmail == "" && $errorText == "") {
+      header("Location: index.php");
+    } 
+  }
+?>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -15,35 +58,7 @@
       }
     </style>
   </head>
-  <?php
-    $errorText = "";
-    $errorEmail = "";
-    $textArea = "";
-    $email = "";
-    
-    if(isset($_POST["submit"])){
-      $textArea = $_POST["text-area"];  
-      $email = $_POST["email"];
-      
-      if (empty($textArea)){
-        $errorText = "Please enter a gift message.";
-      } 
 
-      if(empty($email)){
-        $errorEmail = "Please enter email.";
-      } else {
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-          $errorEmail = "Email Must Be a Valid Email Address.";
-        } 
-      }
-
-      if($errorEmail != ""){
-        echo "There is an error!";
-      } else {
-        echo "There is NO error!";
-      }
-    }
-  ?>
   <body onload="getLoc()">
     <h1>GWP QR API</h1>
     <iframe name="iframe" id="google_map" ></iframe></br>
@@ -72,7 +87,6 @@
       function getLoc(){
         navigator.geolocation.getCurrentPosition(c);  
       }
-      
     </script>
   </body>
 </html>

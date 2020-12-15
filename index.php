@@ -25,16 +25,22 @@
       $textArea = $_POST["text-area"];  
       $email = $_POST["email"];
       
-
       if (empty($textArea)){
         $errorText = "Please enter a gift message.";
       } 
+
       if(empty($email)){
         $errorEmail = "Please enter email.";
       } else {
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
           $errorEmail = "Email Must Be a Valid Email Address.";
         } 
+      }
+
+      if($errorEmail != ""){
+        echo "There is an error!";
+      } else {
+        echo "There is NO error!";
       }
     }
   ?>

@@ -1,17 +1,21 @@
-<!DOCTYPE html>
 <?php
-    include ("config/db_connect.php");
+    // connection to database
+    $conn = mysqli_connect("localhost", "cris", "bebe", "GWP");
+    if (!$conn) {
+      echo 'Connection error: ' . mysqli_connect_error();
+    }
+    // constructed query (not used)
+    $sql = "SELECT location FROM General";
 
-    $sql = "SELECT location FROM General ORDER BY Time_Stamp";
-    
+  	// get the result set (set of rows)
     $result = mysqli_query($conn, $sql);
     
+    // fetch the resulting rows as an array.  To receive data from DB.
     $emailQuery = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
     mysqli_free_result($result);
-    mysqli_close($conn);
 
-    print_r($emailQuery);
+    //print_r($emailQuery);
 
     if (!$conn){
       echo "Connection error: " . mysqli_connect_error();
@@ -39,10 +43,25 @@
     }
 
     if ($errorEmail == "" && $errorText == "") {
-      header("Location: index.php");
+      $email = mysqli_real_escape_string($conn, $_POST['email']);
+      $textArea = mysqli_real_escape_string($conn, $_POST['textArea']);
+		
+			// create query for entering data
+			$sql = "INSERT INTO General(email, Message) VALUES('$email', '$textArea')";
+
+			// saves data from user to db and check
+			if(mysqli_query($conn, $sql)){
+				// success
+				header('Location: index.php');
+			} else {
+				echo 'query error: '. mysqli_error($conn);
+      }
     } 
+    //ends connection. this needs to be at the end of all queries run
+    mysqli_close($conn);
   }
 ?>
+<!DOCTYPE html> 
 <html lang="en">
   <head>
     <meta charset="UTF-8">
